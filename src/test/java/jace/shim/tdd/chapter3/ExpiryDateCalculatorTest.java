@@ -52,6 +52,16 @@ public class ExpiryDateCalculatorTest {
         assertExpiryDate(payData, expectDate);
     }
 
+    @Test
+    void 첫_납부일과_만료일자가_다를때_이만원_이상_납부() {
+        PayData payData = PayData.builder()
+                .firstBillingDate(LocalDate.of(2019, 1, 31))
+                .billingDate(LocalDate.of(2019, 2, 28))
+                .payAmount(20_000)
+                .build();
+        assertExpiryDate(payData, LocalDate.of(2019, 4, 30));
+    }
+
     private static Stream<Arguments> provideOverAmount() {
         return Stream.of(
                 Arguments.arguments(LocalDate.of(2019, 3, 1), 20_000, LocalDate.of(2019, 5, 1)),
